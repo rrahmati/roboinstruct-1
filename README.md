@@ -46,3 +46,6 @@ Controlling the Baxter robot
 ------------
 In order to control a Baxter robot, the trajectory of end-effector needs to be converted to joint angles and the pose of objets need to be extracted using a Kinect sensor. The part of code to do this task is in the ``blocks/baxter`` folder that can be copied to the examples folder of ROS Baxter package. In addition, the marker tracker package [Alvar](http://wiki.ros.org/ar_track_alvar) needs to be installed. The files in ``blocks/baxter/ar_track_alvar`` can be copied to the ROS package folder of the tracker. The markers need to be printed and put on the box in the same positions as in ``box.xml`` file.
 
+Acknowledgment
+------------
+The code in the [char-rnn](https://github.com/johnarevalo/blocks-char-rnn) repository helped a lot in this project.
