@@ -2,6 +2,10 @@
 
 This framework is designed to demonstrate some object manipulation tasks to a robot in simulation, and train a recurrent neural network to autonomously mimic that behavior in simulation or on a Baxter robot. The demonstrations contain the pose and status (open/close) of the gripper and the pose of relevant objects. At each time-step, the neural network takes this information as input and predicts the next pose of the gripper.
 
+Paper: R. Rahmatizadeh, P. Abolghasemi, A. Behal, and L. B&ouml;l&ouml;ni.
+	Learning real manipulation tasks from virtual demonstrations using LSTM.
+	[arXiv](http://arxiv.org/abs/1603.03833)
+	
 [![Performance of manipulation tasks in the simulation and on a Baxter robot](https://img.youtube.com/vi/9vYlIG2ozaM/0.jpg)](https://www.youtube.com/watch?v=9vYlIG2ozaM)
 
 Dataset
