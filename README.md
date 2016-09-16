@@ -10,13 +10,9 @@ The dataset of trajectories performed by our team is placed in ``blocks/trajecto
 
 Installation
 ------------
-The Blocks_: framework needs to be installed.
-pandas (``pip install pandas``)
-Unity3D (Windows_, Linux_):
-
-.. _Blocks: http://blocks.readthedocs.io/en/latest/setup.html
-.. _Windows: https://unity3d.com/
-.. _Linux: http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/
+The [Blocks](http://blocks.readthedocs.io/en/latest/setup.html): framework needs to be installed.
+[pandas](http://pandas.pydata.org/) (``pip install pandas``)
+Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/)):
 
 Simulator
 ------------
@@ -37,10 +33,9 @@ sample.py loads the saved model and generates the trajectory by reading the ``pr
 All the parameters can be set in ``config.py``.
 There are many ideas implemented that are not included in the paper such as multi-task learning, multi-timescale learning, auxiliary predictions, hierarchical model, specialized and shared model, helper model, softmax as an output, etc. You can take a look at the ``config.py`` to see a short description of these ideas. If you feel confident, you can change these parameters.
 
-If you want to use the multi-timescale feature, the folder roboinstruct/blocks/blocks code/ needs to be copied to the Blocks code (/usr/local/lib/python2.7/dist-packages/blocks/bricks/recurrent) to replace the existing files. We needed to change the blocks code in order to implement the multi-timescale feature used in Clockwork RNN. It is a dirty way to implement it but you will probably will not need to use it at all.
+If you want to use the multi-timescale feature, the folder roboinstruct/blocks/blocks code/ needs to be copied to the Blocks code (e.g. /usr/local/lib/python2.7/dist-packages/blocks/bricks/recurrent) to replace the existing files. We needed to change the blocks code in order to implement the multi-timescale feature used in Clockwork RNN. It is a dirty way to implement it but you will probably will not need to use it at all.
 
 Controlling Baxter robot
 ------------
-In order to control a Baxter robot, the trajectory of end-effector needs to be converted to joint angles. There is a part of code in the ``blocks/baxter`` folder that can be copied to the examples folder of ROS Baxter package. In addition, the marker tracker package Alvar_ needs to be installed. The files in ``blocks/baxter/ar_track_alvar`` can be copied to the ROS package folder of the tracker. The markers need to be printed and put on the box to extract the pose of the Box.
+In order to control a Baxter robot, the trajectory of end-effector needs to be converted to joint angles. There is a part of code in the ``blocks/baxter`` folder that can be copied to the examples folder of ROS Baxter package. In addition, the marker tracker package [Alvar](http://wiki.ros.org/ar_track_alvar) needs to be installed. The files in ``blocks/baxter/ar_track_alvar`` can be copied to the ROS package folder of the tracker. The markers need to be printed and put on the box to extract the pose of the Box.
 
-.. _Alvar: http://wiki.ros.org/ar_track_alvar
