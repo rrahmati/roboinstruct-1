@@ -6,9 +6,10 @@ Paper:
   * R. Rahmatizadeh, P. Abolghasemi, A. Behal, and L. B&ouml;l&ouml;ni.
 	Learning real manipulation tasks from virtual demonstrations using LSTM.
 	[arXiv](http://arxiv.org/abs/1603.03833)
+
 Video:
 
-  *[![Performance of manipulation tasks in the simulation and on a Baxter robot](https://img.youtube.com/vi/9vYlIG2ozaM/0.jpg)](https://www.youtube.com/watch?v=9vYlIG2ozaM)
+[![Performance of manipulation tasks in the simulation and on a Baxter robot](https://img.youtube.com/vi/9vYlIG2ozaM/0.jpg)](https://www.youtube.com/watch?v=9vYlIG2ozaM)
 
 Dataset
 ------------
