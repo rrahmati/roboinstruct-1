@@ -13,13 +13,13 @@ Video:
 
 Dataset
 ------------
-The dataset of trajectories performed by our team is placed in [trajectories.zip](https://github.com/rrahmati/roboinstruct-1/blob/master/blocks/trajectories.zip) file. You can extract them in the same location and train the network using that data. It contains around 369,477 waypoints for the pushing task and 107,533 waypoints for the pick and place task. It took a few hours to gather those trajectories, therefore, you might want to define your own task in the simulation and gather the trajectories yourself.
+The dataset of trajectories performed by our team is placed in [trajectories.zip](https://github.com/rrahmati/roboinstruct-1/blob/master/blocks/trajectories.zip) file. You can extract them in the same location and train the network using that data. It contains around 369,477 waypoints for the pushing task and 107,533 waypoints for the pick and place task. It took only a few hours to gather those trajectories. so, you can try it yourself by defining your own task in the simulation and demonstrating it to the robot.
 
 Installation
 ------------
   * [Blocks](http://blocks.readthedocs.io/en/latest/setup.html)
   * [pandas](http://pandas.pydata.org/) (``pip install pandas``)
-  * Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/)):
+  * Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/))
 
 Simulator
 ------------
