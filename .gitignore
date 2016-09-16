@@ -1,0 +1,89 @@
+
+# =========================
+# Unity files
+# =========================
+
+Temp/
+Library/
+Obj/
+playback/
+learning/models
+learning/trajectories
+learning/predictions
+blocks/models
+blocks/trajectories
+blocks/predictions
+blocks/.settings
+ 
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
+*.prefs
+*.DS_store
+*.project
+*.pydevproject
+*.png
+ProjectVersion.txt
+*.npy
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+
+# Windows shortcuts
+*.lnk
+
+# =========================
+# Operating System Files
+# =========================
+
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+# Directories potentially created on remote AFP share
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+*.suo
+*.dll
+Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll.meta
+Assets/UnityVS/Editor.meta
+UpgradeLog.htm
+ProjectSettings/ProjectSettings.asset
+Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll.meta
+Assets/UnityVS.meta
+Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll.meta
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectSettings.asset
+learning/.project
+learning/.pydevproject
+learning/model
+*.asset

@@ -1,0 +1,4 @@
+*.pyc
+*.txt
+*.hdf5
+*.pkl
