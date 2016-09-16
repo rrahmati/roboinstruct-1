@@ -7,7 +7,9 @@ Temp/
 Library/
 Obj/
 playback/
+blocks/models
 blocks/trajectories
+blocks/predictions/*
 blocks/.settings
 
 *.csproj
@@ -66,3 +68,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+*.suo
+*.dll
