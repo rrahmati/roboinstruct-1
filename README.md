@@ -2,6 +2,13 @@
 
 This framework is designed to demonstrate some object manipulation tasks to a robot in simulation, and train a recurrent neural network to autonomously mimic that behavior in simulation or on a Baxter robot. The demonstrations contain the pose and status (open/close) of the gripper and the pose of relevant objects. At each time-step, the neural network takes this information as input and predicts the next pose of the gripper.
 
+Paper: 
+  * R. Rahmatizadeh, P. Abolghasemi, A. Behal, and L. B&ouml;l&ouml;ni.
+	Learning real manipulation tasks from virtual demonstrations using LSTM.
+	[arXiv](http://arxiv.org/abs/1603.03833)
+
+Video:
+
 [![Performance of manipulation tasks in the simulation and on a Baxter robot](https://img.youtube.com/vi/9vYlIG2ozaM/0.jpg)](https://www.youtube.com/watch?v=9vYlIG2ozaM)
 
 Dataset
@@ -10,13 +17,9 @@ The dataset of trajectories performed by our team is placed in ``blocks/trajecto
 
 Installation
 ------------
-The Blocks_: framework needs to be installed.
-pandas (``pip install pandas``)
-Unity3D (Windows_, Linux_):
-
-.. _Blocks: http://blocks.readthedocs.io/en/latest/setup.html
-.. _Windows: https://unity3d.com/
-.. _Linux: http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/
+  * [Blocks](http://blocks.readthedocs.io/en/latest/setup.html)
+  * [pandas](http://pandas.pydata.org/) (``pip install pandas``)
+  * Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/)):
 
 Simulator
 ------------
@@ -37,10 +40,9 @@ sample.py loads the saved model and generates the trajectory by reading the ``pr
 All the parameters can be set in ``config.py``.
 There are many ideas implemented that are not included in the paper such as multi-task learning, multi-timescale learning, auxiliary predictions, hierarchical model, specialized and shared model, helper model, softmax as an output, etc. You can take a look at the ``config.py`` to see a short description of these ideas. If you feel confident, you can change these parameters.
 
-If you want to use the multi-timescale feature, the folder roboinstruct/blocks/blocks code/ needs to be copied to the Blocks code (/usr/local/lib/python2.7/dist-packages/blocks/bricks/recurrent) to replace the existing files. We needed to change the blocks code in order to implement the multi-timescale feature used in Clockwork RNN. It is a dirty way to implement it but you will probably will not need to use it at all.
+If you want to use the multi-timescale feature, the folder roboinstruct/blocks/blocks code/ needs to be copied to the Blocks code (e.g. /usr/local/lib/python2.7/dist-packages/blocks/bricks/recurrent) to replace the existing files. We needed to change the blocks code in order to implement the multi-timescale feature used in Clockwork RNN. It is a dirty way to implement it but you will probably will not need to use it at all.
 
 Controlling Baxter robot
 ------------
-In order to control a Baxter robot, the trajectory of end-effector needs to be converted to joint angles. There is a part of code in the ``blocks/baxter`` folder that can be copied to the examples folder of ROS Baxter package. In addition, the marker tracker package Alvar_ needs to be installed. The files in ``blocks/baxter/ar_track_alvar`` can be copied to the ROS package folder of the tracker. The markers need to be printed and put on the box to extract the pose of the Box.
+In order to control a Baxter robot, the trajectory of end-effector needs to be converted to joint angles. There is a part of code in the ``blocks/baxter`` folder that can be copied to the examples folder of ROS Baxter package. In addition, the marker tracker package [Alvar](http://wiki.ros.org/ar_track_alvar) needs to be installed. The files in ``blocks/baxter/ar_track_alvar`` can be copied to the ROS package folder of the tracker. The markers need to be printed and put on the box to extract the pose of the Box.
 
-.. _Alvar: http://wiki.ros.org/ar_track_alvar
