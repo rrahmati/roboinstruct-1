@@ -10,9 +10,9 @@ The dataset of trajectories performed by our team is placed in ``blocks/trajecto
 
 Installation
 ------------
-The [Blocks](http://blocks.readthedocs.io/en/latest/setup.html): framework needs to be installed.
-[pandas](http://pandas.pydata.org/) (``pip install pandas``)
-Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/)):
+⋅⋅* [Blocks](http://blocks.readthedocs.io/en/latest/setup.html)
+⋅⋅* [pandas](http://pandas.pydata.org/) (``pip install pandas``)
+⋅⋅* Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/)):
 
 Simulator
 ------------
