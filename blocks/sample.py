@@ -175,7 +175,7 @@ def sample():
                 print 'could not open the prediction file.'
 #             last_prediction = predicted.copy()
             wait_counter = 0
-            wait_time = 5.25
+            wait_time = 0.25
             while True:
                 time.sleep(wait_time)
                 if control_baxter:
