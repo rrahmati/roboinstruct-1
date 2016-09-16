@@ -21,7 +21,7 @@ blocks/.settings
 *.DS_store
 *.project
 *.pydevproject
-*.png
+
 ProjectVersion.txt
 *.npy
 # Windows image file caches
