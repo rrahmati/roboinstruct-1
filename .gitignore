@@ -7,7 +7,6 @@ Temp/
 Library/
 Obj/
 playback/
-blocks/models
 blocks/trajectories
 blocks/predictions/*
 blocks/.settings
