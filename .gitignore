@@ -7,14 +7,9 @@ Temp/
 Library/
 Obj/
 playback/
-learning/models
-learning/trajectories
-learning/predictions
-blocks/models
 blocks/trajectories
-blocks/predictions
 blocks/.settings
- 
+
 *.csproj
 *.unityproj
 *.sln
@@ -71,19 +66,3 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
-
-*.suo
-*.dll
-Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll.meta
-Assets/UnityVS/Editor.meta
-UpgradeLog.htm
-ProjectSettings/ProjectSettings.asset
-Assets/UnityVS/Editor/SyntaxTree.VisualStudio.Unity.Messaging.dll.meta
-Assets/UnityVS.meta
-Assets/UnityVS/Editor/UnityVS.VersionSpecific.dll.meta
-ProjectSettings/ProjectSettings.asset
-ProjectSettings/ProjectSettings.asset
-learning/.project
-learning/.pydevproject
-learning/model
-*.asset
