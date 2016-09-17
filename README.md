@@ -1,15 +1,16 @@
 # RoboInstruct
 
-This framework is designed to demonstrate some object manipulation tasks to a robot in simulation, and train a recurrent neural network to autonomously mimic that behavior in simulation or on a Baxter robot. The demonstrations contain the pose and status (open/close) of the gripper and the pose of relevant objects. At each time-step, the neural network takes this information as input and predicts the next pose of the gripper.
+This framework is designed to demonstrate arbitrary object manipulation tasks to a robot in the simulation, and train a recurrent neural network to autonomously mimic that behavior in the simulation or on a Baxter robot. The demonstrations contain the pose and status (open/close) of the gripper and the pose of relevant objects. At each time-step, the neural network takes this information as input and predicts the next pose of the gripper. You can simply move the gripper to manipulate some objects in the simulator. Then, train a network using the recorded data. The network will reproduce the behavior if you provide it with enough demonstrations. You can also do some fun experiments, for instance, ask the network to predict the trajectory of a falling object or two colliding objects.
+
+Video:
+
+[![Performance of manipulation tasks in the simulation and on a Baxter robot](https://img.youtube.com/vi/9vYlIG2ozaM/0.jpg)](https://www.youtube.com/watch?v=9vYlIG2ozaM)
 
 Paper: 
   * R. Rahmatizadeh, P. Abolghasemi, A. Behal, and L. B&ouml;l&ouml;ni.
 	Learning real manipulation tasks from virtual demonstrations using LSTM.
 	[arXiv](http://arxiv.org/abs/1603.03833)
 
-Video:
-
-[![Performance of manipulation tasks in the simulation and on a Baxter robot](https://img.youtube.com/vi/9vYlIG2ozaM/0.jpg)](https://www.youtube.com/watch?v=9vYlIG2ozaM)
 
 Dataset
 ------------
