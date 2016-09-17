@@ -5,7 +5,8 @@ using System.IO;
 using System;
 using System.Linq;
 
-public class Record_playback : MonoBehaviour {
+public class Record_playback : MonoBehaviour
+{
 
 	public static Modes mode = Modes.Record; 		// Record, Playback, PlayPrediction
 	// Record is used when the user wants to freely move the gripper and demonstrate a trajectory
@@ -21,7 +22,7 @@ public class Record_playback : MonoBehaviour {
 	GameObject finger2;
 	GameObject[] objects;
 	List<GameObject> objectsToRecord;
-	List<ObjectTransformation> transformations = new List<ObjectTransformation>();
+	List<ObjectTransformation> transformations = new List<ObjectTransformation> ();
 	public Vector3 nextGripperPosition;
 	Quaternion nextGripperRotation;
 	float nextGripperStatus;
@@ -33,21 +34,28 @@ public class Record_playback : MonoBehaviour {
 	int counter = 0;
 	int playID;
 	int framesCountToSend = 30;
-
 	float recordDelay = .03f;
 	float lastRecordTime = 0f;
 	bool predictionUpdated = false;
 
-	public enum Modes { Record, Playback, PlayPrediction };
+	public enum Modes
+	{
+		Record,
+		Playback,
+		PlayPrediction }
+	;
 	// Use this for initialization
-	void Start () {
-		if(mode == Modes.Record)
-		playbackFileName = "blocks/trajectories/" + UnityEngine.Random.Range(0, 10000000);
-		objectsToRecord = GameObject.FindGameObjectsWithTag ("movable").ToList<GameObject>();
+	void Start ()
+	{
+		if (mode == Modes.Record)
+			playbackFileName = "blocks/trajectories/" + UnityEngine.Random.Range (0, 10000000);
+		objectsToRecord = GameObject.FindGameObjectsWithTag ("movable").ToList<GameObject> ();
 
-		objectsToRecord.Sort(delegate(GameObject c1, GameObject c2) { return c1.name.CompareTo(c2.name); });
+		objectsToRecord.Sort (delegate(GameObject c1, GameObject c2) {
+			return c1.name.CompareTo (c2.name);
+		});
 		foreach (GameObject gameobject in objectsToRecord) {
-			transformations.Add(new ObjectTransformation(gameobject.name));
+			transformations.Add (new ObjectTransformation (gameobject.name));
 		}
 
 		finger1 = GameObject.Find ("finger1");
@@ -57,30 +65,31 @@ public class Record_playback : MonoBehaviour {
 
 		if (mode == Modes.Record) {
 			File.Delete (playbackFileName);
-			writeFileHeader(true, false);
+			writeFileHeader (true, false);
 		} else {
 			float physicsChange = .01f;
-			finger1.GetComponent<Rigidbody>().mass = physicsChange;
-			finger1.GetComponent<Rigidbody>().drag = physicsChange;
-			finger1.GetComponent<Rigidbody>().angularDrag = physicsChange;
-			finger2.GetComponent<Rigidbody>().mass = physicsChange;
-			finger2.GetComponent<Rigidbody>().drag = physicsChange;
-			finger2.GetComponent<Rigidbody>().angularDrag = physicsChange;
+			finger1.GetComponent<Rigidbody> ().mass = physicsChange;
+			finger1.GetComponent<Rigidbody> ().drag = physicsChange;
+			finger1.GetComponent<Rigidbody> ().angularDrag = physicsChange;
+			finger2.GetComponent<Rigidbody> ().mass = physicsChange;
+			finger2.GetComponent<Rigidbody> ().drag = physicsChange;
+			finger2.GetComponent<Rigidbody> ().angularDrag = physicsChange;
 			if (mode == Modes.Playback) {
 				print ("Playing back...");
-				readPlaybackFile();
+				readPlaybackFile ();
 			} else {
 				framesCountToSend = 1;
-				readPredictionFile();
+				readPredictionFile ();
 			}
 		}
 	}
 
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate ()
+	{
 
 
-		if( Time.time > lastRecordTime + recordDelay) {
+		if (Time.time > lastRecordTime + recordDelay) {
 
 			lastRecordTime = Time.time;
 			if (mode == Modes.Record) {
@@ -96,39 +105,34 @@ public class Record_playback : MonoBehaviour {
 					objectTransformation.positions.Add (objectTransformation.gameObject.transform.position);
 					objectTransformation.rotations.Add (objectTransformation.gameObject.transform.rotation);
 				}
-				gripperStatus.Add(Gripper.gripperStatus);
+				gripperStatus.Add (Gripper.gripperStatus);
 				recentFramesRecorded++;
 				totalFramesRecorded++;
-				if(totalFramesRecorded % framesCountToSend == 0) {
-					writeToFile(true, false);
+				if (totalFramesRecorded % framesCountToSend == 0) {
+					writeToFile (true, false);
 				}
 
 			} else {
-				if (mode == Modes.Playback)
-				{
-					if (counter < totalFramesRecorded)
-					{
-						foreach (ObjectTransformation objectTransformation in transformations)
-						{
+				if (mode == Modes.Playback) {
+					if (counter < totalFramesRecorded) {
+						foreach (ObjectTransformation objectTransformation in transformations) {
 							if (objectTransformation.gameObject.name != "gripper_center")
-							continue;
+								continue;
 							//Vector3 towardsNextPosition =  objectTransformation.positions[counter] - objectTransformation.gameObject.transform.position;
 							//objectTransformation.gameObject.GetComponent<Rigidbody>().AddForce(towardsNextPosition * 15);
 							// objectTransformation.gameObject.transform.position = objectTransformation.positions[counter];
 
-							objectTransformation.gameObject.transform.position = Vector3.Lerp(
-							objectTransformation.gameObject.transform.position, objectTransformation.positions[counter], Time.deltaTime * 200);
+							objectTransformation.gameObject.transform.position = Vector3.Lerp (
+                               objectTransformation.gameObject.transform.position, objectTransformation.positions [counter], Time.deltaTime * 200);
 
 							objectTransformation.gameObject.transform.rotation = Quaternion.
-							Slerp(objectTransformation.gameObject.transform.rotation, objectTransformation.rotations[counter], Time.deltaTime * 200);
+                                Slerp (objectTransformation.gameObject.transform.rotation, objectTransformation.rotations [counter], Time.deltaTime * 200);
 						}
-						Gripper.gripperStatus = gripperStatus[counter];
+						Gripper.gripperStatus = gripperStatus [counter];
 						counter++;
 					}
-				}
-				else if (mode == Modes.PlayPrediction)
-				{
-					playPrediction();
+				} else if (mode == Modes.PlayPrediction) {
+					playPrediction ();
 
 				}
 			}
@@ -137,10 +141,9 @@ public class Record_playback : MonoBehaviour {
 
 	}
 
-	public void playPrediction()
+	public void playPrediction ()
 	{
-		if (counter > 1)
-		{
+		if (counter > 1) {
 			// Vector3 towardsNextPosition = nextGripperPosition - GameObject.Find("gripper_center").transform.position;
 			// GameObject.Find("gripper_center").GetComponent<Rigidbody>().AddForce(towardsNextPosition * .1f, ForceMode.Impulse);
 
@@ -155,201 +158,194 @@ public class Record_playback : MonoBehaviour {
 			// GameObject.Find("gripper_center").transform.position = nextGripperPosition;
 			// GameObject.Find("gripper_center").transform.rotation = nextGripperRotation;
 
-			GameObject.Find("gripper_center").transform.position = Vector3.Lerp(
-			GameObject.Find("gripper_center").transform.position, nextGripperPosition, Time.deltaTime * 15);
-			GameObject.Find("gripper_center").transform.rotation = Quaternion.
-			Slerp(GameObject.Find("gripper_center").transform.rotation, nextGripperRotation, Time.deltaTime * 15);
-			if(visualizeObject == 1) {
-				GameObject.Find("box (1)").transform.position = objectVisualPosition;
-				GameObject.Find("box (1)").transform.rotation = objectVisualRotation;
+			GameObject.Find ("gripper_center").transform.position = Vector3.Lerp (
+                GameObject.Find ("gripper_center").transform.position, nextGripperPosition, Time.deltaTime * 15);
+			GameObject.Find ("gripper_center").transform.rotation = Quaternion.
+               Slerp (GameObject.Find ("gripper_center").transform.rotation, nextGripperRotation, Time.deltaTime * 15);
+			if (visualizeObject == 1) {
+				GameObject.Find ("box (1)").transform.position = objectVisualPosition;
+				GameObject.Find ("box (1)").transform.rotation = objectVisualRotation;
 			}
 		}
 
-		foreach (ObjectTransformation objectTransformation in transformations)
-		{
-			objectTransformation.positions.Add(objectTransformation.gameObject.transform.position);
-			objectTransformation.rotations.Add(objectTransformation.gameObject.transform.rotation);
+		foreach (ObjectTransformation objectTransformation in transformations) {
+			objectTransformation.positions.Add (objectTransformation.gameObject.transform.position);
+			objectTransformation.rotations.Add (objectTransformation.gameObject.transform.rotation);
 		}
 		Gripper.gripperStatus = nextGripperStatus;
-		gripperStatus.Add(Gripper.gripperStatus);
+		gripperStatus.Add (Gripper.gripperStatus);
 		recentFramesRecorded++;
-		if(visualizeObject != 1)
-		writeToFile(true, false);
+		if (visualizeObject != 1)
+			writeToFile (true, false);
 		predictionUpdated = false;
 	}
 
-	public void writeFileHeader(bool writeLocal, bool sendToServer) {
+	public void writeFileHeader (bool writeLocal, bool sendToServer)
+	{
 		string lines = "";
-		lines += DateTime.UtcNow.ToString("yyyy-MM-dd hh:mm:ss.fff") + "\n";
-		for( int obj = 0; obj < transformations.Count; obj++) {
-			lines += transformations[obj].gameObject.name + ",";
+		lines += DateTime.UtcNow.ToString ("yyyy-MM-dd hh:mm:ss.fff") + "\n";
+		for (int obj = 0; obj < transformations.Count; obj++) {
+			lines += transformations [obj].gameObject.name + ",";
 		}
 		lines += "\n";
 		lines += "time,task,try_in_task,gripper" + ",";
-		for( int obj = 0; obj < transformations.Count; obj++) {
-			lines += transformations[obj].gameObject.name + "_p_x" + ","
-			+ transformations[obj].gameObject.name + "_p_y" + ","
-			+ transformations[obj].gameObject.name + "_p_z"  + ","
-			+ transformations[obj].gameObject.name + "_r_x"  + ","
-			+ transformations[obj].gameObject.name + "_r_y"  + ","
-			+ transformations[obj].gameObject.name + "_r_z"  + ","
-			+ transformations[obj].gameObject.name + "_r_w"  + ",";
+		for (int obj = 0; obj < transformations.Count; obj++) {
+			lines += transformations [obj].gameObject.name + "_p_x" + ","
+				+ transformations [obj].gameObject.name + "_p_y" + ","
+				+ transformations [obj].gameObject.name + "_p_z" + ","
+				+ transformations [obj].gameObject.name + "_r_x" + ","
+				+ transformations [obj].gameObject.name + "_r_y" + ","
+				+ transformations [obj].gameObject.name + "_r_z" + ","
+				+ transformations [obj].gameObject.name + "_r_w" + ",";
 		}
 		lines += "task_length,box_goal_z\n";
 		if (writeLocal)
-		File.WriteAllText(playbackFileName, lines);
+			File.WriteAllText (playbackFileName, lines);
 		if (sendToServer)
-		StartCoroutine(DoWWW(lines));
+			StartCoroutine (DoWWW (lines));
 
 	}
 
-	public void writeToFile(bool writeLocal, bool sendToServer) {
+	public void writeToFile (bool writeLocal, bool sendToServer)
+	{
 
 		string lines = "";
-		if(mode == Modes.PlayPrediction)
-		{
+		if (mode == Modes.PlayPrediction) {
 			lines += "time,task,try_in_task,gripper" + ",";
-			for (int obj = 0; obj < transformations.Count; obj++)
-			{
-				lines += transformations[obj].gameObject.name + "_p_x" + ","
-				+ transformations[obj].gameObject.name + "_p_y" + ","
-				+ transformations[obj].gameObject.name + "_p_z" + ","
-				+ transformations[obj].gameObject.name + "_r_x" + ","
-				+ transformations[obj].gameObject.name + "_r_y" + ","
-				+ transformations[obj].gameObject.name + "_r_z" + ","
-				+ transformations[obj].gameObject.name + "_r_w" + ",";
+			for (int obj = 0; obj < transformations.Count; obj++) {
+				lines += transformations [obj].gameObject.name + "_p_x" + ","
+					+ transformations [obj].gameObject.name + "_p_y" + ","
+					+ transformations [obj].gameObject.name + "_p_z" + ","
+					+ transformations [obj].gameObject.name + "_r_x" + ","
+					+ transformations [obj].gameObject.name + "_r_y" + ","
+					+ transformations [obj].gameObject.name + "_r_z" + ","
+					+ transformations [obj].gameObject.name + "_r_w" + ",";
 			}
 			lines += "task_length,box_goal_z,\n";
 		}
-		for(int frame = 0; frame < recentFramesRecorded; frame++) {
-			lines += DateTime.UtcNow.ToString("yyyy-MM-dd-hh:mm:ss.fff") + ",";
+		for (int frame = 0; frame < recentFramesRecorded; frame++) {
+			lines += DateTime.UtcNow.ToString ("yyyy-MM-dd-hh:mm:ss.fff") + ",";
 			lines += UI.level + ",";
 			lines += UI.tryInLevel + ",";
-			lines += gripperStatus[frame] + ",";
-			for( int obj = 0; obj < transformations.Count; obj++) {
-				lines += transformations[obj].positions[frame].x + ","
-				+ transformations[obj].positions[frame].y + ","
-				+ transformations[obj].positions[frame].z + ","
-				+ transformations[obj].rotations[frame].x + ","
-				+ transformations[obj].rotations[frame].y + ","
-				+ transformations[obj].rotations[frame].z + ","
-				+ transformations[obj].rotations[frame].w + ",";
+			lines += gripperStatus [frame] + ",";
+			for (int obj = 0; obj < transformations.Count; obj++) {
+				lines += transformations [obj].positions [frame].x + ","
+					+ transformations [obj].positions [frame].y + ","
+					+ transformations [obj].positions [frame].z + ","
+					+ transformations [obj].rotations [frame].x + ","
+					+ transformations [obj].rotations [frame].y + ","
+					+ transformations [obj].rotations [frame].z + ","
+					+ transformations [obj].rotations [frame].w + ",";
 			}
 			lines += task_length + "," + box_goal_z + ",\n";
 		}
-		foreach(ObjectTransformation transformation in transformations) {
-			transformation.positions.RemoveRange(0,framesCountToSend);
-			transformation.rotations.RemoveRange(0,framesCountToSend);
+		foreach (ObjectTransformation transformation in transformations) {
+			transformation.positions.RemoveRange (0, framesCountToSend);
+			transformation.rotations.RemoveRange (0, framesCountToSend);
 		}
-		gripperStatus.RemoveRange(0, framesCountToSend);
+		gripperStatus.RemoveRange (0, framesCountToSend);
 		recentFramesRecorded -= framesCountToSend;
-		if(writeLocal)
-		if(mode == Modes.PlayPrediction)
-		File.WriteAllText(playbackFileName, lines);
+		if (writeLocal)
+		if (mode == Modes.PlayPrediction)
+			File.WriteAllText (playbackFileName, lines);
 		else
-		File.AppendAllText(playbackFileName, lines);
-		if(sendToServer)
-		StartCoroutine(DoWWW(lines));
+			File.AppendAllText (playbackFileName, lines);
+		if (sendToServer)
+			StartCoroutine (DoWWW (lines));
 
 	}
 
-	private IEnumerator DoWWW(string lines)
+	private IEnumerator DoWWW (string lines)
 	{
-		var form = new WWWForm();
-		form.AddField("time", DateTime.UtcNow.ToString("yyyy-MM-dd hh:mm:ss.fff"));
-		form.AddField("fileContent", lines);
+		var form = new WWWForm ();
+		form.AddField ("time", DateTime.UtcNow.ToString ("yyyy-MM-dd hh:mm:ss.fff"));
+		form.AddField ("fileContent", lines);
 		form.AddField ("playID", playID + "");
-		WWW download = new WWW("http://www.yourdomain.com/upload.php", form);
+		WWW download = new WWW ("http://www.nemleca.com/upload_v1.php", form);
 		yield return download;
-		Debug.Log(download.data);
+		Debug.Log (download.data);
 	}
 
-	public void readPlaybackFile() {
-		var reader = new StreamReader(File.OpenRead(playbackFileName));
-		reader.ReadLine();
-		reader.ReadLine();
-		reader.ReadLine();
-		for(int frame = 0; !reader.EndOfStream; frame++) {
+	public void readPlaybackFile ()
+	{
+		var reader = new StreamReader (File.OpenRead (playbackFileName));
+		reader.ReadLine ();
+		reader.ReadLine ();
+		reader.ReadLine ();
+		for (int frame = 0; !reader.EndOfStream; frame++) {
 			totalFramesRecorded = frame;
-			var line = reader.ReadLine();
-			var values = line.Split(',');
+			var line = reader.ReadLine ();
+			var values = line.Split (',');
 			int valuesCounter = 0;
-			int level = int.Parse(values[valuesCounter++]);
-			int try_in_level = int.Parse(values[valuesCounter++]);
-			gripperStatus.Add(float.Parse(values[valuesCounter++]));
-			for( int obj = 0; obj < transformations.Count; obj++) {
-				transformations[obj].positions.Add(new Vector3(
-				float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++])));
-				transformations[obj].rotations.Add (new Quaternion(
-				float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]),
-				float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++])));
+			int level = int.Parse (values [valuesCounter++]);
+			int try_in_level = int.Parse (values [valuesCounter++]);
+			gripperStatus.Add (float.Parse (values [valuesCounter++]));
+			for (int obj = 0; obj < transformations.Count; obj++) {
+				transformations [obj].positions.Add (new Vector3 (
+					float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++])));
+				transformations [obj].rotations.Add (new Quaternion (
+					float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]),
+					float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++])));
 			}
 		}
 	}
 
-	public void readPredictionFile()
+	public void readPredictionFile ()
 	{
-		StartCoroutine(readPredictionFileCoroutine());
+		StartCoroutine (readPredictionFileCoroutine ());
 
 	}
 
-	public IEnumerator readPredictionFileCoroutine()
+	public IEnumerator readPredictionFileCoroutine ()
 	{
 
-		while (true)
-		{
+		while (true) {
 
 			int gripperIndex = 0;
-			for (int obj = 0; obj < transformations.Count; obj++)
-			{
-				if (transformations[obj].gameObject.name == "gripper_center")
-				gripperIndex = obj;
+			for (int obj = 0; obj < transformations.Count; obj++) {
+				if (transformations [obj].gameObject.name == "gripper_center")
+					gripperIndex = obj;
 			}
 
 			int frame;
 			var line = "";
-			try
-			{
-				if(visualizeObject == 1)
-				{
-					var reader1 = new StreamReader(File.Open(playbackFileName, FileMode.Open));
-					reader1.ReadLine();
-					line = reader1.ReadLine();
-					reader1.Close();
-					var values = line.Split(',');
+			try {
+				if (visualizeObject == 1) {
+					var reader1 = new StreamReader (File.Open (playbackFileName, FileMode.Open));
+					reader1.ReadLine ();
+					line = reader1.ReadLine ();
+					reader1.Close ();
+					var values = line.Split (',');
 					int valuesCounter = 9;
-					objectVisualPosition = new Vector3(
-					float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]));
-					objectVisualRotation = new Quaternion(
-					float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]),
-					float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]));
+					objectVisualPosition = new Vector3 (
+											float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]));
+					objectVisualRotation = new Quaternion (
+									float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]),
+									float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]));
 
 				}
-				var reader = new StreamReader(File.Open(predictionFileName, FileMode.Open));
-				for (frame = 0; !reader.EndOfStream; frame++)
-				{
-					line = reader.ReadLine();
+				var reader = new StreamReader (File.Open (predictionFileName, FileMode.Open));
+				for (frame = 0; !reader.EndOfStream; frame++) {
+					line = reader.ReadLine ();
 
 				}
 
-				reader.Close();
-				if (frame > 0)
-				{
-					var values = line.Split(',');
+				reader.Close ();
+				if (frame > 0) {
+					var values = line.Split (',');
 					int valuesCounter = 0;
-					nextGripperStatus = float.Parse(values[valuesCounter++]);
+					nextGripperStatus = float.Parse (values [valuesCounter++]);
 					//valuesCounter += 7;
-					Vector3 newGripperPosition = new Vector3(
-					float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]));
-					if(Vector3.SqrMagnitude(newGripperPosition - nextGripperPosition) > 9.9E-11f)
-					{
+					Vector3 newGripperPosition = new Vector3 (
+                        float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]));
+					if (Vector3.SqrMagnitude (newGripperPosition - nextGripperPosition) > 9.9E-11f) {
 						predictionUpdated = true;
 						counter++;
 					}
 					nextGripperPosition = newGripperPosition;
-					nextGripperRotation = new Quaternion(
-					float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]),
-					float.Parse(values[valuesCounter++]), float.Parse(values[valuesCounter++]));
+					nextGripperRotation = new Quaternion (
+                    float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]),
+                    float.Parse (values [valuesCounter++]), float.Parse (values [valuesCounter++]));
 					//-0.000611848f, 0.00111663f, 0.243943f, 0.976817f
 					//);
 					totalFramesRecorded++;
@@ -357,23 +353,24 @@ public class Record_playback : MonoBehaviour {
 					//print(totalFramesRecorded);
 
 				}
+			} catch (Exception e) {
+				print (e.Message);
 			}
-			catch (Exception e) {
-				print(e.Message);
-			}
-			yield return new WaitForSeconds(recordDelay);
+			yield return new WaitForSeconds (recordDelay);
 		}
 	}
 
 }
 
-public class ObjectTransformation{
+public class ObjectTransformation
+{
 
 	public GameObject gameObject;
-	public List<Vector3> positions = new List<Vector3>();
-	public List<Quaternion> rotations = new List<Quaternion>();
+	public List<Vector3> positions = new List<Vector3> ();
+	public List<Quaternion> rotations = new List<Quaternion> ();
 
-	public ObjectTransformation(string objectName) {
+	public ObjectTransformation (string objectName)
+	{
 		gameObject = GameObject.Find (objectName);
 	}
 

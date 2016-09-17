@@ -21,10 +21,10 @@ public class GripperUserControl : MonoBehaviour
 	private bool jump; // whether the jump button is currently pressed
 
 
-	private void Awake()
+	private void Awake ()
 	{
 		// Set up the reference.
-		gripper = GetComponent<Gripper>();
+		gripper = GetComponent<Gripper> ();
 		initialMouseX = Input.mousePosition.x;
 		initialMouseY = Input.mousePosition.y;
 		rotate = this.transform.localRotation;
@@ -32,11 +32,10 @@ public class GripperUserControl : MonoBehaviour
 
 	}
 
-
-	private void FixedUpdate()
+	private void FixedUpdate ()
 	{
 		if (UI.showTermsWindow)
-		return;
+			return;
 		if (Time.realtimeSinceStartup > 1) {
 
 			// Rect screenRect = new Rect(0,0, Screen.width, Screen.height);
@@ -50,9 +49,9 @@ public class GripperUserControl : MonoBehaviour
 			// }
 
 			// Get the axis input.
-			float a = CrossPlatformInputManager.GetAxis("Fire3");
-			float b = CrossPlatformInputManager.GetAxis("Horizontal");
-			float g = CrossPlatformInputManager.GetAxis("Vertical");
+			float a = CrossPlatformInputManager.GetAxis ("Fire3");
+			float b = CrossPlatformInputManager.GetAxis ("Horizontal");
+			float g = CrossPlatformInputManager.GetAxis ("Vertical");
 
 			mouseX = (Input.mousePosition.x - initialMouseX) / 50f;
 			mouseY = (Input.mousePosition.y - initialMouseY) / 50f;
@@ -65,7 +64,7 @@ public class GripperUserControl : MonoBehaviour
 			z += CrossPlatformInputManager.GetAxis ("position_z") / 50f;
 
 			// we use world-relative directions in the case of no main camera
-			move = (y*Vector3.forward + z*Vector3.up + x*Vector3.left);
+			move = (y * Vector3.forward + z * Vector3.up + x * Vector3.left);
 			rotate *= Quaternion.Euler (a, b, g);
 
 
