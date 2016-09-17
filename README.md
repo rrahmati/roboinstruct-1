@@ -28,6 +28,8 @@ When Unity is installed, you can add the entire roboinstruct folder as a project
 
 The ``UI.cs`` file defines different tasks, so, you might want to define your own task similar to the pre-defined tasks. The current task can be set using the task variable in the script. Make sure you change it on the ``Manager`` game object that ``UI.cs`` is attached to. 
 
+The Unity3D project can be built and executed as a web application. Therefore, you can put it on a server and ask people to do the demonstrations. You can also design different tasks as different levels of a game to make it fun. This way you can gather large amount of data to train the network on very complex tasks. The functionality of sending the trajectory data to a server is implemented in the ``Record_playback.cs``file.
+
 Learning
 ------------
 All the learning code is in the ``blocks`` folder.
