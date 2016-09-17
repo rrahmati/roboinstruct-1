@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class gripper_center : MonoBehaviour {
@@ -14,6 +14,6 @@ public class gripper_center : MonoBehaviour {
 	}
 
 	void OnJointBreak(float breakForce) {
-		Gripper.linked = false;	
+		Gripper.linked = false;
 	}
 }

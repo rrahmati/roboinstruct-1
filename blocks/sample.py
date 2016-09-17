@@ -103,15 +103,10 @@ def predict_one_timestep(predict_funcs, initials, x, hierarchy_values, task_inde
                         initial.set_value(newinitial[-1].flatten())
                     layer += (2 if layer_models[layer // 2] == 'mt_rnn' else 1)
                     layer = min([layer,len(layer_resolutions)])
-#             print predicted_values
             if hierarchy_index == len(hierarchy_models) - 1:
                 hierarchy_values[hierarchy_index + 1] = predicted_values
             else:
                 hierarchy_values[hierarchy_index + 1] = np.concatenate((x, predicted_values, [0]))
-                # print x
-                # print predicted_values
-                # print [0]
-                # print hierarchy_values[hierarchy_index+1]
 
     return hierarchy_values, newinitials
 def set_task_column_to_one_hot(data):
@@ -143,43 +138,26 @@ def sample():
     out_size = len(hierarchy_output_columns[level_number_in_hierarchy])
     predicted_values = [None] * out_size
     last_speed_calc = time.time()
-#     prev_traj = [prev_traj[-1]]
-#     predicted = predicted[-1,-1,:]
     predicted = np.array([2, 2.42, 2.316, 1.223, 1, 1, 1.7, 1.71])
     last_prediction = predicted.copy()
-
-#     predicted[1:4] += 1
-#     predicted[1] += 1.920
-#     predicted[2] += 1.466
-#     predicted[3] += 0.748
-
-#     predicted[1],predicted[2],predicted[3] = spherical_to_cartesian(np.array([predicted[1],predicted[2],predicted[3]]))
-
     for iteration in range(10000000):
 
         try:
             try:
-#                 if not np.array_equal(last_prediction,predicted):
                 if control_baxter:
-                    # code to execute the command on Baxter
-#                     new_state = pd.read_csv(sceneStateFile, header=0, sep=',', index_col=False)
-#                     new_state = set_task_column_to_one_hot(new_state)
-#                     new_state[hierarchy_input_columns[level_number_in_hierarchy]] += 1
-#                     predicted = new_state[goal_columns].iloc[-1].as_matrix()
-#                     print predicted
+                    # execute the command on Baxter
                     poseToJoints.execute('right', np.array([x-1 for x in predicted[0:8]]))
                 out = open('predictions/prediction', 'w')
                 out.write(','.join([str(x - 1) for x in predicted]) + '\n')
                 out.close()
             except IOError:
                 print 'could not open the prediction file.'
-#             last_prediction = predicted.copy()
             wait_counter = 0
             wait_time = 0.25
             while True:
                 time.sleep(wait_time)
                 if control_baxter:
-                    # code to read gripper status, end-effector pose, and object pose
+                    # read gripper status, end-effector pose, and object pose
                     poseToJoints.write_env_state('right')
                     new_state = pd.read_csv(sceneStateFile, header=0, sep=',', index_col=False)
                     new_state = set_task_column_to_one_hot(new_state)
@@ -215,22 +193,7 @@ def sample():
             if output_displacement:
                 predicted[1:8] /= gripper_difference_upscale
                 predicted[1:8] += (np.array(new_state[gripper_difference_columns].iloc[0], dtype=theano.config.floatX))
-            # for hierarchy_index in range(len(hierarchy_models)-1,0,-1):
-            #     if iteration % (hierarchy_resolutions[hierarchy_index-1]/hierarchy_resolutions[-1]) == 0:
-            #         predicted = hierarchy_values[hierarchy_index][len(state_columns):]
-            # #         print '-------'
-
-
-            # predicted = hierarchy_values[1][len(state_columns):-1]
-#
-#             predicted[1:4] += 1
-#             predicted[1] += new_state['gripper_center_p_x'][0]
-#             predicted[2] += new_state['gripper_center_p_y'][0]
-#             predicted[3] += new_state['gripper_center_p_z'][0]
-
 #             predicted[1],predicted[2],predicted[3] = spherical_to_cartesian(np.array([predicted[1],predicted[2],predicted[3]]))
-#             print prev_traj[-1:,:,0:8]
-#             print ' ',predicted
             if plot_hidden_states:
                 plt.pause(0.0001)
                 plt.clf()
@@ -242,8 +205,7 @@ def sample():
                 plt.ylim([-2,+4])
                 plt.draw()
     #             plt.waitforbuttonpress()
-#         except (CParserError, RuntimeError, TypeError, NameError, ValueError, IndexError) as ie:
-        except(ValueError):
+        except (CParserError, RuntimeError, TypeError, NameError, ValueError, IndexError) as ie:
             print sys.exc_info()[0]
 
         counter += 1

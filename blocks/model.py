@@ -59,7 +59,6 @@ def MDN_output_layer(x, h, y, in_size, out_size, hidden_size, pred, task):
     log_gauss = T.log(gauss_mix) + max_exponent
     # multiply by the task ( 0 if the cost is not related to this task, 1 otherwise)
     if task_specialized:
-        # print x.type, log_gauss.type
         task_index = in_size - len(game_tasks) + task
         log_gauss = T.mul(log_gauss,T.sub(x[:,:,task_index:task_index+1],1))
     # mean over the batch, mean over sequence
@@ -70,8 +69,6 @@ def MDN_output_layer(x, h, y, in_size, out_size, hidden_size, pred, task):
     component = srng.multinomial(pvals=mixing)
     component_mean = T.sum(mu * component.dimshuffle(0, 1, 'x', 2), axis=3)
     component_std = T.sum(sigma * component, axis=2, keepdims=True)
-#     component_std = T.ones_like(component_std)
-#     component_std = component_mean / 1000.
     linear_output = srng.normal(avg=component_mean, std=component_std)
     linear_output.name = 'linear_output'
     return linear_output, cost
@@ -106,9 +103,6 @@ def softmax_output_layer(x, h, y, in_size, out_size, hidden_size, pred, task):
     linear_output.name = 'linear_output'
     softmax = NDimensionalSoftmax()
     extra_ndim = 1 if single_dim_out else 2
-#     e_x = T.exp(linear_output - linear_output.max(axis=2, keepdims=True))
-#     y_hat = e_x / e_x.sum(axis=2, keepdims=True)
-#     cost = T.nnet.categorical_crossentropy(y_hat, y).mean()
     y_hat = softmax.apply(linear_output, extra_ndim=extra_ndim)
     cost = softmax.categorical_cross_entropy(y, linear_output, extra_ndim=extra_ndim).mean()
 

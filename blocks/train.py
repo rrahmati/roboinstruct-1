@@ -10,7 +10,6 @@ from blocks.extensions import FinishAfter, Timing, Printing, saveload, ProgressB
 from blocks.extensions.training import SharedVariableModifier
 from blocks.extensions.monitoring import DataStreamMonitoring, TrainingDataMonitoring
 from blocks.monitoring import aggregation
-# from blocks.extras.extensions.plot import Plot
 from utils import get_stream, track_best, MainLoop
 from model import nn_fprop
 from config import config

@@ -82,7 +82,6 @@ def setDataResolution(dataCopy):
             indexes.append(i)
             i += np.random.randint(random_resolution_range[0],random_resolution_range[1])
         data = data.append(pd.DataFrame(dataCopy.iloc[indexes]))
-#         data = data.append(dataCopy.drop( [x for x in range(0,len(dataCopy.index)) if x not in range(0,len(dataCopy.index),i)]))
     data = data.reset_index()
     return data
 
@@ -98,8 +97,6 @@ def setGoalAndPrefs(data):
                     data['task_length'].iloc[task_start:i + 1] = (i - task_start) / 150.0
                     data['box_goal_z'].iloc[task_start:i + 1] = data['box (1)_p_z'].iloc[i]
                 task_start = i
-#             gripper_t_ = data[['gripper_center_p_x','gripper_center_p_y','gripper_center_p_z']].iloc[i+1].as_matrix()
-#             gripper_t = data[['gripper_center_p_x','gripper_center_p_y','gripper_center_p_z']].iloc[i].as_matrix()
         else:
             if i + 1 < len(data.index) and data['try_in_task'].iloc[i] < data['try_in_task'].iloc[i + 1] :
                 task_executions += 1
@@ -117,8 +114,6 @@ def setGoalAndPrefs(data):
         data[goal_columns[c] + '_goal'] = pd.Series(goal_col_series[c])
     data['steps'] = pd.Series(steps)
     data = data[:-max_goal_difference]
-
-    # print data[hierarchy_input_columns[level_number_in_hierarchy]].as_matrix()[1000:1010]
 
     return data
 
@@ -197,11 +192,8 @@ def train_test_split():
 #     print data_out.mean()
 #     print data_out.std()
 #     print data_out.var()
-#     dist = np.linalg.norm(pd.DataFrame(data[:-1]).as_matrix()-pd.DataFrame(data.shift(-1)[:-1]).as_matrix(),axis=1,keepdims=True)
-#     print len(dist [np.where( dist > 1.8 )])
 
-#     print data.loc[data['big_box_goal_p_y'].isnull()]
-    print data.isnull().values.any()
+    print "Any nulls? ", data.isnull().values.any()
     # print data_in.as_matrix()[5000:5010]
     # print data_out.as_matrix()[5000:5010]
 
@@ -260,13 +252,6 @@ def main():
             for j in range(len(future_predictions)):
                 outputs[i, :, j * out_size:(j + 1) * out_size] = np.array([d for d in data_out[p + future_predictions[j]:p + seq_length + future_predictions[j]]])
 
-#     if single_dim_out:
-#         inputs = np.repeat(inputs, out_size, axis=1)
-#         for i in range(len(inputs)):
-#             inputs[i,]
-#         outputs = np.reshape(outputs, (nsamples, seq_length * out_size, len(future_predictions)))
-#
-
     if cost_mode == 'Softmax':
         outputs *= 10 ^ out_round_decimal
         outputs = outputs.astype('uint8')
@@ -284,23 +269,18 @@ def main():
     if noise > 0:
         noise_array = np.random.normal(0, noise, inputs.shape)
         inputs[0:nsamples_train] += noise_array[0:nsamples_train]
-#         noise = np.random.normal(0, .1, outputs.shape)
-#         outputs[0:nsamples_train] += noise[0:nsamples_train]
-
+		
     print np.isnan(np.sum(inputs))
     print np.isnan(np.sum(outputs))
     inputs = np.nan_to_num(inputs)
     print len(data)
-
-    # inputs = np.swapaxes(inputs,0,1)
-    # outputs = np.swapaxes(outputs,0,1)
-
+	
     f = h5py.File(hdf5_file, mode='w')
     features = f.create_dataset('features', inputs.shape, dtype=theano.config.floatX)
     if cost_mode == 'Softmax':
         targets = f.create_dataset('targets', outputs.shape, dtype='uint8')
-#         targets.attrs['out_to_ix'] = yaml.dump(out_to_ix)
-#         targets.attrs['ix_to_out'] = yaml.dump(ix_to_out)
+        targets.attrs['out_to_ix'] = yaml.dump(out_to_ix)
+        targets.attrs['ix_to_out'] = yaml.dump(ix_to_out)
     else:
         targets = f.create_dataset('targets', outputs.shape, dtype=theano.config.floatX)
     features[...] = inputs
@@ -311,11 +291,6 @@ def main():
     targets.dims[0].label = 'batch'
     targets.dims[1].label = 'sequence'
     targets.dims[2].label = 'input'
-
-
-
-#     inputs = inputs[:(len(inputs)/100)*100]
-#     outputs = outputs[:(len(outputs)/100)*100]
 
 
     split_dict = {
