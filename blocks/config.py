@@ -2,12 +2,12 @@ config = {}
 
 config['batch_size'] = 100  # number of samples taken per each update.
 config['hidden_size'] = 50
-config['learning_rate'] = .001
-config['learning_rate_decay'] = 0.99  # set to 0 to not decay learning rate
+config['learning_rate'] = .002
+config['learning_rate_decay'] = 0.999  # set to 0 to not decay learning rate
 config['decay_rate'] = 0.99  # decay rate for rmsprop
 config['step_clipping'] = 1.0  # clip norm of gradients at this value
 config['dropout'] = .0
-config['nepochs'] = 10000  # number of full passes through the training data
+config['nepochs'] = 5000  # number of full passes through the training data
 config['seq_length'] = 50  # number of chars in the sequence
 config['hdf5_file'] = 'input.hdf5'  # hdf5 file with Fuel format
 config['random_resolution_range'] = [8,9]
@@ -17,8 +17,8 @@ config['layer_models'] = ['lstm', 'lstm', 'lstm'] # feedforward, lstm, rnn
 config['num_layers'] = len(config['layer_models'])
 
 # parameters of data augmentation
-config['z_shift_range'] = [-.5,.5]
-config['z_shift_offset'] = .15
+config['z_shift_range'] = [0,.5]
+config['z_shift_offset'] = 2
 config['x_shift_range'] = [0,.1]
 config['x_shift_offset'] = 2
 config['y_shift_range'] = [0,.3]
@@ -29,7 +29,6 @@ config['future_predictions'] = [1]
 config['prediction_cost_weights'] = [1]
 
 # parameters of multi-timescale learning : The idea is to enable different layers of LSTM or RNN to work at different time-scales
-config['e2e_multi_timescale'] = False
 config['layer_resolutions'] = [1,1,1]
 config['layer_execution_time_offset'] = [0,0,0]
 
@@ -113,8 +112,8 @@ config['hierarchy_output_columns'].append(['gripper', 'gripper_center_p_x', 'gri
 
 config['train_size'] = 0.80  # fraction of data that goes into train set
 # path to the best model file
-config['save_path'] = 'models/{0}_{1}_{2}_{3}_{4}_{5}_{6}_{7}_{8}_{9}_{10}_{11}_{12}_{13}_{14}_{15}_{16}_{17}_{18}_{19}_{20}_best.pkl'.format(config['multi_task_mode'], config['use_helper_model'], '-'.join(str(x) for x in config['game_tasks']), config['task_specialized'], config['separate_last_hidden'], config['dedicated_last_h_size'], config['random_resolution_range'][0], config['cost_mode'], config['components_size'], config['connect_h_to_h'], config['connect_x_to_h'], config['connect_h_to_o'], '-'.join(str(x) for x in config['layer_resolutions']), config['noise'], config['max_goal_difference'], config['level_name_in_hierarchy'], config['user_prefs'], config['num_layers'], config['hidden_size'], config['batch_size'], config['seq_length'])  
+config['save_path'] = 'models/{0}_{1}_{2}_{3}_{4}_{5}_{6}_{7}_{8}_{9}_{10}_{11}_{12}_{13}_{14}_{15}_{16}_{17}_{18}_{19}_{20}_best.pkl'.format(config['multi_task_mode'], config['use_helper_model'], '-'.join(str(x) for x in config['game_tasks']), config['task_specialized'], config['separate_last_hidden'], config['dedicated_last_h_size'], config['random_resolution_range'][0], config['cost_mode'], config['components_size'], config['connect_h_to_h'], config['connect_x_to_h'], config['connect_h_to_o'], '-'.join(str(x) for x in config['layer_resolutions']), config['noise'], config['max_goal_difference'], config['level_name_in_hierarchy'], config['user_prefs'], config['num_layers'], config['hidden_size'], config['batch_size'], config['seq_length'])
 # path to save the model of the last epoch
-config['last_path'] = 'models/{0}_{1}_{2}_{3}_{4}_{5}_{6}_{7}_{8}_{9}_{10}_{11}_{12}_{13}_{14}_{15}_{16}_{17}_{18}_{19}_{20}_last.pkl'.format(config['multi_task_mode'], config['use_helper_model'], '-'.join(str(x) for x in config['game_tasks']), config['task_specialized'], config['separate_last_hidden'], config['dedicated_last_h_size'], config['random_resolution_range'][0], config['cost_mode'], config['components_size'], config['connect_h_to_h'], config['connect_x_to_h'], config['connect_h_to_o'], '-'.join(str(x) for x in config['layer_resolutions']), config['noise'], config['max_goal_difference'], config['level_name_in_hierarchy'], config['user_prefs'], config['num_layers'], config['hidden_size'], config['batch_size'], config['seq_length'])  
+config['last_path'] = 'models/{0}_{1}_{2}_{3}_{4}_{5}_{6}_{7}_{8}_{9}_{10}_{11}_{12}_{13}_{14}_{15}_{16}_{17}_{18}_{19}_{20}_last.pkl'.format(config['multi_task_mode'], config['use_helper_model'], '-'.join(str(x) for x in config['game_tasks']), config['task_specialized'], config['separate_last_hidden'], config['dedicated_last_h_size'], config['random_resolution_range'][0], config['cost_mode'], config['components_size'], config['connect_h_to_h'], config['connect_x_to_h'], config['connect_h_to_o'], '-'.join(str(x) for x in config['layer_resolutions']), config['noise'], config['max_goal_difference'], config['level_name_in_hierarchy'], config['user_prefs'], config['num_layers'], config['hidden_size'], config['batch_size'], config['seq_length'])
 config['load_path'] = config['save_path']
 config['hierarchy_models'] = [ config['save_path']]

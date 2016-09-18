@@ -8,7 +8,7 @@ using System.Linq;
 public class Record_playback : MonoBehaviour
 {
 
-	public static Modes mode = Modes.Record; 		// Record, Playback, PlayPrediction
+	public static Modes mode = Modes.PlayPrediction; 		// Record, Playback, PlayPrediction
 	// Record is used when the user wants to freely move the gripper and demonstrate a trajectory
 	// Playback is used to playback object poses from a recorded file in the Record mode
 	// PlayPrediction is used to report current environment to neural networks and play their prediction in real-time

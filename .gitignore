@@ -8,7 +8,6 @@ Library/
 Obj/
 playback/
 blocks/trajectories
-blocks/predictions/*
 blocks/.settings
 
 *.csproj

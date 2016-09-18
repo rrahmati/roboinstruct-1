@@ -240,21 +240,18 @@ def add_layer(model, i, in_size, h_size, x, h, cells, task, first_layer = False)
 def nn_fprop(x, y, in_size, out_size, hidden_size, num_layers, model, training):
     if single_dim_out:
         out_size = 1
-    if e2e_multi_timescale:
-        return mt_rnn_fprop(x, y, in_size, out_size, hidden_size, num_layers, model, training)
-    else:
-        cells = []
-        h = []
-        for i in range(num_layers- specialized_layer_num):
+    cells = []
+    h = []
+    for i in range(num_layers- specialized_layer_num):
+        model = layer_models[i]
+        h, cells = add_layer(model, i, in_size, hidden_size, x, h, cells, task=-1, first_layer = True if i == 0 else False)
+    specialized_h = []
+    shared_h = T.concatenate([hidden for hidden in h], axis=2)
+    shared_h_size = (num_layers- specialized_layer_num)*hidden_size
+    specialized_count = len(game_tasks) if task_specialized else 1
+    for task in range(specialized_count):
+        specialized_h.append([])
+        for i in range(num_layers- specialized_layer_num,num_layers):
             model = layer_models[i]
-            h, cells = add_layer(model, i, in_size, hidden_size, x, h, cells, task=-1, first_layer = True if i == 0 else False)
-        specialized_h = []
-        shared_h = T.concatenate([hidden for hidden in h], axis=2)
-        shared_h_size = (num_layers- specialized_layer_num)*hidden_size
-        specialized_count = len(game_tasks) if task_specialized else 1
-        for task in range(specialized_count):
-            specialized_h.append([])
-            for i in range(num_layers- specialized_layer_num,num_layers):
-                model = layer_models[i]
-                specialized_h[task], cells = add_layer(model, i, shared_h_size, specialized_hidden_size, shared_h, specialized_h[task], cells, task, first_layer = True if i == num_layers- specialized_layer_num else False)
-        return output_layer(x, h, specialized_h, y, in_size, out_size, hidden_size) + (cells,)
+            specialized_h[task], cells = add_layer(model, i, shared_h_size, specialized_hidden_size, shared_h, specialized_h[task], cells, task, first_layer = True if i == num_layers- specialized_layer_num else False)
+    return output_layer(x, h, specialized_h, y, in_size, out_size, hidden_size) + (cells,)

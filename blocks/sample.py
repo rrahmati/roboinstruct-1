@@ -41,7 +41,6 @@ def load_models(models = hierarchy_models, in_size = len(hierarchy_input_columns
                 hidden_size = hidden_size, num_layers = num_layers, model = layer_models[0]):
     predict_funcs = []
     initials = []
-    print in_size
     for hierarchy_index in range(len(models)):
         saved_model = models[hierarchy_index]
         print 'Loading model from {0}...'.format(models[hierarchy_index])
@@ -69,8 +68,6 @@ def load_models(models = hierarchy_models, in_size = len(hierarchy_input_columns
                 hiddens.extend(VariableFilter(theano_name=brick.name + '_apply_states')(bin_model.variables))
                 hiddens.extend(VariableFilter(theano_name=brick.name + '_apply_cells')(cells))
                 initials[hierarchy_index].extend(VariableFilter(roles=[roles.INITIAL_STATE])(brick.parameters))
-        print hiddens
-        print initials
         output_count = len(game_tasks) if task_specialized else 1
         predict_funcs.append([])
         for task in range(output_count):
@@ -118,8 +115,6 @@ def set_task_column_to_one_hot(data):
 
 def sample():
     np.random.seed(seed)
-#     print 'Loading data for rescaling...'
-#     data, data_in, data_out, data_min, data_max = train_test_split()
     if plot_hidden_states:
         plt.ion()
         plt.ylim([-2,+4])
@@ -170,7 +165,6 @@ def sample():
                 gripper_pose_difference = np.linalg.norm(new_state[goal_columns].iloc[-1].as_matrix()[1:8] - [x-1 for x in predicted[1:8]])
                 wait_counter += wait_time
                 if gripper_pose_difference < .01 or wait_counter > 1:
-                    print gripper_pose_difference
                     break
             last_time = new_state['time'][0]
 #             new_state = transformCoordinates(new_state)
