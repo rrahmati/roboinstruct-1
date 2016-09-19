@@ -19,7 +19,7 @@ The dataset of trajectories performed by our team is placed in [trajectories.zip
 
 Pre-trained model
 ------------
-You can find a pre-trained model of the pushing task [here](https://github.com/rrahmati/roboinstruct-1/blob/master/blocks/models/ID_False_18_False_False_1_8_MDN_20_one-previous_True_True_1-1-1_0.0_1_bottom_False_3_50_10_50_best.pkl). It will be loaded automatically if you run ``sample.py`` using the default parameters. The training took a few hours on a GTX 1070 GPU.
+You can find a pre-trained model of the pushing task [here](https://github.com/rrahmati/roboinstruct-1/blob/master/blocks/models/ID_False_18_False_False_1_8_MDN_20_one-previous_True_True_1-1-1_0.0_1_bottom_False_3_50_10_50_best.pkl). To use this model, first run the Unity3D project and then ``sample.py`` using the default parameters. The training took a few hours on a GTX 1070 GPU.
 
 Installation
 ------------
