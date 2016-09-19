@@ -1,14 +1,14 @@
 config = {}
 
-config['batch_size'] = 100  # number of samples taken per each update.
+config['batch_size'] = 10  # number of samples taken per each update. You might want to increase it to make the training faster, but you might not get the same result.
 config['hidden_size'] = 50
-config['learning_rate'] = .002
+config['learning_rate'] = .001
 config['learning_rate_decay'] = 0.999  # set to 0 to not decay learning rate
-config['decay_rate'] = 0.99  # decay rate for rmsprop
+config['decay_rate'] = 0.999  # decay rate for rmsprop
 config['step_clipping'] = 1.0  # clip norm of gradients at this value
 config['dropout'] = .0
-config['nepochs'] = 5000  # number of full passes through the training data
-config['seq_length'] = 50  # number of chars in the sequence
+config['nepochs'] = 1000  # number of full passes through the training data
+config['seq_length'] = 50  # number of waypoints in the truncated sequence
 config['hdf5_file'] = 'input.hdf5'  # hdf5 file with Fuel format
 config['random_resolution_range'] = [8,9]
 config['noise'] = .0

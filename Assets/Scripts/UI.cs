@@ -23,8 +23,8 @@ public class UI : MonoBehaviour
 	// level 18- push and rotate to reach the desired pose
 	static int[] boxCount = new int[] {0,0,1,0,1,0,0,0,0,0,0,
                                          1,1,1,1,1,1,1,1,1,1}; // box count for each level
-	static int[] levelTimeLimit = new int[] {50,30,50,50,350,50,20,50,50,50,50,
-                                              50,50,50,50,50,50,50,180,50,50}; // box count for each level
+	static int[] levelTimeLimit = new int[] {60,60,60,50,350,50,20,50,50,50,50,
+                                              50,50,50,50,50,50,50,120,50,50}; // box count for each level
 
 	static int obstacleCount = 1;
 	public static float lastLevelReset = 0f;
@@ -336,7 +336,7 @@ public class UI : MonoBehaviour
 	{
 		level = task;
 		Text timeText = GameObject.Find ("time-text").GetComponent<Text> ();
-		timeText.text = "Expected duration:\t" + (int)(expectedDuration * 15f) + " s\nElapsed time: \t\t" + (int)(Time.time - Mathf.Max (lastSuccessTime, lastFailTime)) + " s";
+		timeText.text = "Elapsed time: \t\t" + (int)(Time.time - Mathf.Max (lastSuccessTime, lastFailTime)) + " s";
 
 		float last_try = Mathf.Max (lastSuccessTime, lastFailTime);
 		// if (Gripper.movementMagnitude < 0)

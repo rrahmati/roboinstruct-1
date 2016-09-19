@@ -13,7 +13,7 @@ public class Record_playback : MonoBehaviour
 	// Playback is used to playback object poses from a recorded file in the Record mode
 	// PlayPrediction is used to report current environment to neural networks and play their prediction in real-time
 
-	public static int visualizeObject = 0;							// Enable only when visualizing the real world objects from Kinect in Unity
+	public static int visualizeObject = 0;	// Enable only when visualizing the real world objects from Kinect in Unity
 	private string playbackFileName = "blocks/predictions/sceneState";
 	private string predictionFileName = "blocks/predictions/prediction";
 	public float task_length = 100;
