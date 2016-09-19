@@ -57,4 +57,4 @@ In order to control a Baxter robot, the trajectory of end-effector needs to be c
 
 Acknowledgment
 ------------
-We gratefully thank [Sergey Levine](https://people.eecs.berkeley.edu/~svlevine/) for his ideas that are implemented in this repository. The code in the [char-rnn](https://github.com/johnarevalo/blocks-char-rnn) repository helped a lot in this project.
+We gratefully thank [Sergey Levine](https://people.eecs.berkeley.edu/~svlevine/) for sharing some interesting ideas that are implemented in this repository. The code in the [char-rnn](https://github.com/johnarevalo/blocks-char-rnn) repository helped a lot in this project.
