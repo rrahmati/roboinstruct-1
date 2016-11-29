@@ -24,7 +24,7 @@ You can find a pre-trained model of the pushing task [here](https://github.com/r
 Installation
 ------------
 It can be installed on Linux or Windows. First, you need to install:
-  * [Blocks](http://blocks.readthedocs.io/en/latest/setup.html)
+  * [Blocks](http://blocks.readthedocs.io/en/latest/setup.html) (cutting-edge development version)
   * [pandas](http://pandas.pydata.org/) (``pip install pandas``)
   * Unity3D ([Windows](https://unity3d.com/), [Linux](http://forum.unity3d.com/threads/unity-on-linux-release-notes-and-known-issues.350256/))
 
